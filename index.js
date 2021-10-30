@@ -80,6 +80,22 @@ async function run() {
       res.json(result);
 
     })
+
+    app.put("/bookings/:id", async (req, res)=>{
+      const id = req.params.id;
+      const newBook = req.body;
+      const filter = {_id: ObjectId(id)};
+       const updateDoc = {
+          $set: {
+            oderSt: newBook.oderSt
+          },
+        };
+
+        const result = await bookingsCollection.updateOne(filter, updateDoc);
+        res.json(result)
+      // console.log("update id ", id)
+      // console.log("data ", req.body)
+    })
     
 
     // const docs = [
@@ -100,9 +116,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.get("/", (req, res)=>{
-    res.send("hore krishno")
-})
 
 app.listen(port, ()=>{
     console.log(`lisiting port on ${port}`)
